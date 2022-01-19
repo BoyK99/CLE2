@@ -1,17 +1,19 @@
-<?php
-?>
-<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Homepage GYS</title>
+        <link rel="stylesheet" href="css/style.css">
+        <title>Homepage - GYS</title>
     </head>
     <body>
-        <img src="img/logo.svg">
-        <form action="reserve.php">
-            <button>Maak Afspraak</button>
-        </form>
+        <div class="body-float">
+            <img class="index" src="img/logo.png">
+            <div class="index-form-center">
+                <form action="reserve.php">
+                    <button class="reserveIndex">Maak Afspraak</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

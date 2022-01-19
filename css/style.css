@@ -1,0 +1,191 @@
+/* GLOBAL CSS*/
+body {
+    margin: 0;
+    padding: 0;
+}
+body.bg-image::after  {
+    content: "";
+    background-image: url("../img/background.jpg");
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    object-fit: contain;
+}
+span.errors {
+    /* error handling */
+    color: red;
+}
+.errors{
+    color: red;
+}
+i {
+    height: 10em;
+    color: black;
+}
+
+/*-------------------------------------------*/
+/*index.php*/
+div.body-float{
+    margin:0 40%;
+    padding:0 40px;
+}
+img.index {
+    /* img size*/
+    width: 14em;
+    height: 10em;
+}
+div.index-form-center{
+    position: relative;
+    padding-left: 3em;
+}
+button.reserveIndex {
+    background-color: #194d37;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 1px;
+    border-radius: 5px;
+
+}
+/*-------------------------------------------*/
+/* START Reserve.php CSS*/
+img.reserve-form-logo {
+    width: 8em;
+    height: 5em;
+    /*position: relative;*/
+    margin-left: 5em;
+    padding: 1em;
+}
+div.reserve-form-outer {
+    width: 24em;
+    height: 35em;
+    background-color: #ffffff;
+    margin: 6em;
+}
+div.reserve-form-inner {
+    padding: 1em;
+    width: 23em;
+    height: 33em;
+}
+button.reserve {
+    background-color: #194d37;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 1px;
+    border-radius: 5px;
+    margin-left: 7.5em;
+
+}
+
+/*-------------------------------------------*/
+/* START Login.php CSS*/
+img.login-image{
+    width: 8em;
+    height: 6em;
+}
+div.login-form-outer {
+    /*margin-left: 10em;*/
+    /*width: 25em;*/
+    /*height: 30em;*/
+    /*background-color: white;*/
+    /*border: 1px black;*/
+    width: 20em;
+    height: 30em;
+    background-color: #ffffff;
+    margin-left: 50em;
+    margin-top: 10em;
+}
+div.login-form-middle{
+    padding-left: 5em;
+    padding-top: 5em;
+}
+div.login-form-inner {
+
+}
+
+/*-------------------------------------------*/
+/* START Header CSS*/
+ul.header-normal {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4B7097;
+    width:100%;
+    height: 2em;
+}
+li.header-normal {
+    float: right;
+}
+li a.header-normal {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a.header-normal:hover {
+    background-color: #9E9E9E;
+}
+
+/*-------------------------------------------*/
+/* START footer*/
+ul.footer-normal {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4B7097;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:2.5em;
+}
+li.footer-normal {
+    display: inline-block;
+    width: 1em;
+    margin-left: 100px;
+    margin-top: 0.5em;
+}
+li a.footer-normal:hover {
+    background-color: #9E9E9E;
+}
+
+/*-------------------------------------------*/
+/* START System Header CSS*/
+ul.header-system {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 2em;
+    background-color: #4B7097;
+}
+li.header-system {
+    float: right;
+}
+li a.header-system {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a.header-system:hover {
+    background-color: #9E9E9E;
+}
+

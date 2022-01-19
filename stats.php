@@ -3,8 +3,8 @@
 
     //May I even visit this page?
     if (!isset($_SESSION['loggedInUser'])) {
-    header("Location: login.php");
-    exit;
+        header("Location: login.php");
+        exit;
     }
 
 
@@ -13,7 +13,3 @@
 ?>
 
 <?php include 'includes/systemHeader.php"';?>
-
-
-
-

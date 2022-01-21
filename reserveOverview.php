@@ -1,39 +1,10 @@
 <?php
-    /** @var mysqli $db */
-
-    // redirect when uri does not contain a id
-    if(!isset($_GET['id']) || $_GET['id'] == '') {
-        // redirect to index.php
-        header('Location: reserve.php');
-        exit;
-    }
-
-    //Require database in this file
-    require_once "includes/database.php";
-
-    //Retrieve the GET parameter from the 'Super global'
-    $reservationId = mysqli_escape_string($db, $_GET['id']);
-
-    //Get the record from the database result
-    $query = "SELECT * FROM reservations WHERE id = '$reservationId'";
-    $result = mysqli_query($db, $query)
-    or die ('Error: ' . $query );
-
-    if(mysqli_num_rows($result) != 1)
-    {
-        // redirect when db returns no result
-        header('Location: reserve.php');
-        exit;
-    }
-
-    $reservationView = mysqli_fetch_assoc($result);
-
-    //Close connection
-    mysqli_close($db);
+    // Start session from previous page
+    session_start();
 ?>
 <html lang="en">
     <head>
-        <title><?= $reservationView['first_name'] . ' ' . $reservationView['last_name'] . ' - ' . $reservationView['date'] ?></title>
+        <title>Reservering gelukt - GYS</title>
         <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
     </head>
@@ -41,17 +12,13 @@
         <?php include 'includes/systemHeader.php';?>
         <h1> Overzicht reserving</h1>
         <ul>
-            <li>Naam:           <?= $reservationView['first_name']. ' ' .$reservationView['last_name'] ?></li>
-            <li>Datum:          <?= $reservationView['date'] ?></li>
-            <li>Tijdstip:       <?= $reservationView['time'] ?></li>
-            <li>Telefoonnummer: <?= $reservationView['phone_number'] ?></li>
-            <li>Email:          <?= $reservationView['email'] ?></li>
-            <li>Locatie:        <?= $reservationView['location'] ?></li>
-            <li>Notitie:        <?= $reservationView['note'] ?></li>
+            <li>Naam:           <?= $_SESSION['form-data']['first_name']. ' ' .$_SESSION['form-data']['last_name'] ?></li>
+            <li>Datum:          <?= $_SESSION['form-data']['date'] ?></li>
+            <li>Tijdstip:       <?= $_SESSION['form-data']['time'] ?></li>
+            <li>Locatie:        <?= $_SESSION['form-data']['location'] ?></li>
+            <li>Notitie:        <?= $_SESSION['form-data']['note'] ?></li>
         </ul>
-        <div>
-            <a href="overview.php">Ga terug naar overzicht</a>
-        </div>
+        Uw reserving is gelukt
         <?php include 'includes/footer.php"';?>
     </body>
 </html>

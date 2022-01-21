@@ -1,14 +1,13 @@
 <?php
+    // Database variable
     /** @var mysqli $db */
 
-    $random = rand(0,8);
-
-    //Check if submitted
+    // Check if submitted
     if (isset($_POST['submit'])) {
-        //Database check
+        // Database check
         require_once "includes/database.php";
 
-        //Data from form
+        // Data from form
         $first_name     = mysqli_escape_string($db, $_POST['first_name']);
         $last_name      = mysqli_escape_string($db, $_POST['last_name']);
         $phone_number   = mysqli_escape_string($db, $_POST['phone_number']);
@@ -18,25 +17,39 @@
         $location       = mysqli_escape_string($db, $_POST['location']);
         $persons        = mysqli_escape_string($db, $_POST['persons']);
         $note           = mysqli_escape_string($db, $_POST['note']);
-//        $table_id       = mysqli_escape_string($db, $_POST['table_Id']);
 
-        //Form validation handling
+        // Assign random table
+        $table_id = rand(0, 8);
+
+        // Form validation handling
         require_once "includes/form-validation.php";
 
         if (empty($errors)) {
-            //Form data to the database
-            $query = "INSERT INTO reservations (first_name, last_name, phone_number, email, date, time, location, persons, note, table_Id)
-                      VALUES ('$first_name', '$last_name', '$phone_number', '$email', '$date', '" . $time . "', '$location', '$persons', '$note', '$random')";
+            // Form data to the database
+            $query = "INSERT INTO reservations (first_name, last_name, phone_number, email, date, time, location, persons, note, table_id)
+                      VALUES ('$first_name', '$last_name', '$phone_number', '$email', '$date', '" . $time . "', '$location', '$persons', '$note', '$table_id')";
             $result = mysqli_query($db, $query) or die('Error: '.mysqli_error($db). ' with query ' . $query);
 
+            // Session with data from form
             if ($result) {
-                header('Location: reserveOverview.php?id=');
+                session_start();
+                $_SESSION['form-data'] = [
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    'date' => $date,
+                    'time' => $time,
+                    'location' => $location,
+                    'persons' => $persons,
+                    'note' => $note
+                ];
+
+                header("Location: reserveOverview.php");
                 exit;
             } else {
                 $errors['db'] = 'Something went wrong in your database query: ' . mysqli_error($db);
             }
 
-            //Close connection
+            // Close connection
             mysqli_close($db);
         }
     }
@@ -59,7 +72,7 @@
                         <div class="reserve-form-inner">
                             <div>
                                 <label for="first_name">Naam: </label>
-                                <input id="first_name" type="text" name="first_name">
+                                <input id="first_name" type="text" name="first_name"">
                                 <span class="errors"><?php echo $errors['first_name'] ?? ''; ?></span>
                             </div>
                             <br>
@@ -71,13 +84,13 @@
                             <br>
                             <div>
                                 <label>Telefoonnummer: </label>
-                                <input id="phone_number" type="tel" name="phone_number">
+                                <input id="phone_number" type="tel" name="phone_number"">
                                 <span class="errors"><?php echo $errors['phone_number'] ?? ''; ?></span>
                             </div>
                             <br>
                             <div>
                                 <label for="email">Email: </label>
-                                <input id="email" type="text" name="email"">
+                                <input id="email" type="text" name="email">
                                 <span class="errors"><?php echo $errors['email'] ?? ''; ?></span>
                             </div>
                             <br>

@@ -8,7 +8,7 @@
     </head>
     <body>
         <?php include 'includes/header.php"';?>
-
+        WIP
         <?php include 'includes/footer.php"';?>
     </body>
 </html>

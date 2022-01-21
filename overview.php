@@ -1,29 +1,30 @@
 <?php
-    /** @var mysqli $db */
+    // Start session
     session_start();
 
-    //May I even visit this page?
+    // Database variable
+    /** @var mysqli $db */
+
+    // Can I even visit this page?
     if (!isset($_SESSION['loggedInUser'])) {
         header("Location: login.php");
         exit;
     }
-//    //Get email from session
-//    $email = $_SESSION['loggedInUser']['email'];
 
-    //Require DB settings with connection variable
+    // Require database in this file
     require_once "includes/database.php";
 
-    //Get the result set from the database with a SQL query
+    // Get the result set from the database with a SQL query
     $query = "SELECT * FROM reservations";
     $result = mysqli_query($db, $query) or die ('Error: ' . $query );
 
-    //Loop through the result to create a custom array
+    // Loop through the result to create a custom array
     $reservationLists = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $reservationLists[] = $row;
     }
 
-    //Close connection
+    // Close db connection
     mysqli_close($db);
 ?>
 <!doctype html>

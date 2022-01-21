@@ -1,31 +1,42 @@
 <?php
+    // Start session
+    session_start();
+
+    // Can I even visit this page?
+    if (!isset($_SESSION['loggedInUser'])) {
+        header("Location: login.php");
+        exit;
+    }
+
+    // Database variable
     /** @var mysqli $db */
 
-    // redirect when uri does not contain a id
+    // Redirect when url does not contain id
     if(!isset($_GET['id']) || $_GET['id'] == '') {
         // redirect to index.php
         header('Location: overview.php');
         exit;
     }
 
-    //Require database in this file
+    // Require database in this file
     require_once "includes/database.php";
 
-    //Retrieve the GET parameter from the 'Super global'
+    // Retrieve GET parameter
     $reservationId = mysqli_escape_string($db, $_GET['id']);
 
-    //Get the record from the database result
+    // Get record from the database result
     $query = "SELECT * FROM reservations WHERE id = '$reservationId'";
     $result = mysqli_query($db, $query)
     or die ('Error: ' . $query );
 
     if(mysqli_num_rows($result) != 1)
     {
-        // redirect when db returns no result
+        // Redirect when db returns no result
         header('Location: index.php');
         exit;
     }
 
+    // Fetch result
     $reservationView = mysqli_fetch_assoc($result);
 
     //Close connection

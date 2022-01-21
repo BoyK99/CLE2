@@ -1,36 +1,41 @@
 <?php
+    // Check if submitted
+    if(isset($_POST['submit'])) {
+        // Require db connection file
+        require_once "includes/database.php";
 
-if(isset($_POST['submit'])) {
-    require_once "includes/database.php";
+        // Database variable
+        /** @var mysqli $db */
 
-    /** @var mysqli $db */
+        // Variables for registering form
+        $email = mysqli_escape_string($db, $_POST['user_name']);
+        $password = $_POST['password'];
+        $time_stamp = date("Y-m-d H:i:s");
 
-    $email = mysqli_escape_string($db, $_POST['user_name']);
-    $password = $_POST['password'];
-    $time_stamp = date("Y-m-d H:i:s");
+        // Check if empty
+        $errors = [];
+        if($email == '') {
+            $errors['user_name'] = 'Voer een gebruikersnaam in';
+        }
+        if($password == '') {
+            $errors['password'] = 'Voer een wachtwoord in';
+        }
 
-    $errors = [];
-    if($email == '') {
-        $errors['user_name'] = 'Voer een gebruikersnaam in';
-    }
-    if($password == '') {
-        $errors['password'] = 'Voer een wachtwoord in';
-    }
+        // Insert in db
+        if(empty($errors)) {
+            $password = password_hash($password, PASSWORD_DEFAULT);
 
-    if(empty($errors)) {
-        $password = password_hash($password, PASSWORD_DEFAULT);
+            $query = "INSERT INTO users (user_name, password, create_date) VALUES ('$email', '$password', '$time_stamp')";
 
-        $query = "INSERT INTO users (user_name, password, create_date) VALUES ('$email', '$password', '$time_stamp')";
+            $result = mysqli_query($db, $query)
+            or die('Db Error: '.mysqli_error($db).' with query: '.$query);
 
-        $result = mysqli_query($db, $query)
-        or die('Db Error: '.mysqli_error($db).' with query: '.$query);
-
-        if ($result) {
-            header('Location: login.php');
-            exit;
+            if ($result) {
+                header('Location: login.php');
+                exit;
+            }
         }
     }
-}
 ?>
 <!doctype html>
 <html lang="en">

@@ -1,4 +1,5 @@
 <?php
+// Check if data is valid and generate error(s) if not so
 $errors = [];
 
 if($update_first_name == ""){

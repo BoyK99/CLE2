@@ -1,6 +1,7 @@
 <?php
-//Check if data is valid & generate error if not so
+// Check if data is valid and generate error(s) if not so
 $errors = [];
+
 if ($first_name == "") {
     $errors['first_name'] = 'Voornaam kan niet leeg zijn.';
 }

@@ -1,8 +1,10 @@
 <?php
-$host       = "localhost";
-$database   = "gys";
-$user       = "root";
-$password   = "";
+    // Variables for connection
+    $host       = "localhost";
+    $database   = "gys";
+    $user       = "root";
+    $password   = "";
 
-$db = mysqli_connect($host, $user, $password, $database)
-or die("Error: " . mysqli_connect_error());;
+    // Make connection
+    $db = mysqli_connect($host, $user, $password, $database)
+    or die("Error: " . mysqli_connect_error());;

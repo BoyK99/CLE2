@@ -1,3 +1,7 @@
+<?php
+    // Start
+    session_start();
+?>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -8,7 +12,7 @@
     </head>
     <body>
         <?php include 'includes/header.php"';?>
-
+        WIP
         <?php include 'includes/footer.php"';?>
     </body>
 </html>

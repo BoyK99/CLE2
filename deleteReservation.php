@@ -1,50 +1,58 @@
 <?php
+    // Start session
+    session_start();
+
+    // Can I even visit this page
+    if (!isset($_SESSION['loggedInUser'])) {
+        header("Location: login.php");
+        exit;
+    }
+
+    // Database variable
     /** @var mysqli $db */
 
-    //Require music data & image helpers to use variable in this file
+    // Require database in this file
     require_once "includes/database.php";
 
+    // Check if form submit has been clicked
     if (isset($_POST['submit'])) {
-        // DELETE IMAGE
-        // To remove the image we need to query the file name from the db.
-        // Get the record from the database result
+        // Get id from previous page
         $id = mysqli_escape_string($db, $_POST['id']);
+        // Get all data by id
         $query = "SELECT * FROM reservations WHERE id = '$id'";
         $result = mysqli_query($db, $query) or die ('Error: ' . $query);
 
         $reservationView = mysqli_fetch_assoc($result);
 
-        // DELETE DATA
-        // Remove the album data from the database with the existing albumId
+        // Delete data
         $query = "DELETE FROM reservations WHERE id = '$id'";
         mysqli_query($db, $query) or die ('Error: ' . mysqli_error($db));
 
-        //Close connection
+        // Close connection
         mysqli_close($db);
 
-        //Redirect to homepage after deletion & exit script
+        // Redirect to homepage after deletion and exit script
         header("Location: overview.php");
         exit;
 
     } else if (isset($_GET['id']) || $_GET['id'] != '') {
-        //Retrieve the GET parameter from the 'Super global'
+        // Retrieve id
         $id = mysqli_escape_string($db, $_GET['id']);
 
-        //Get the record from the database result
+        // Get the record from the database result
         $query = "SELECT * FROM reservations WHERE id = '$id'";
         $result = mysqli_query($db, $query) or die ('Error: ' . $query);
 
+        // Check if there is ONE result
         if (mysqli_num_rows($result) == 1) {
             $reservationView = mysqli_fetch_assoc($result);
         } else {
-            // redirect when db returns no result
+            // Redirect when db returns no result
             header('Location: overview.php');
             exit;
         }
     } else {
-        // Id was not present in the url OR the form was not submitted
-
-        // redirect to index.php
+        // Redirect to index.php
         header('Location: overview.php');
         exit;
     }

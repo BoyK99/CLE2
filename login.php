@@ -1,53 +1,61 @@
 <?php
-session_start();
+    // Start session
+    session_start();
 
-if(isset($_SESSION['loggedInUser'])) {
-    $login = true;
-    header('Location: overview.php');
-} else {
-    $login = false;
-}
-
-/** @var mysqli $db */
-require_once "includes/database.php";
-
-if (isset($_POST['submit'])) {
-    $usernameInput = mysqli_escape_string($db, $_POST['usernameInput']);
-    $password = $_POST['passwordInput'];
-
-    $errors = [];
-    if($usernameInput == '') {
-        $errors['usernameInput'] = 'Voer een gebruikersnaam in';
-    }
-    if($password == '') {
-        $errors['passwordInput'] = 'Voer een wachtwoord in';
+    // Check if already logged in
+    if(isset($_SESSION['loggedInUser'])) {
+        $login = true;
+        header('Location: overview.php');
+    } else {
+        $login = false;
     }
 
-    if(empty($errors))
-    {
-        //Get record from DB based on first name
-        $query = "SELECT * FROM users WHERE user_name='$usernameInput'";
-        $result = mysqli_query($db, $query);
-        if (mysqli_num_rows($result) == 1) {
-            $user = mysqli_fetch_assoc($result);
-            if (password_verify($password, $user['password'])) {
-                $login = true;
+    // Database variable
+    /** @var mysqli $db */
 
-                $_SESSION['loggedInUser'] = [
-                    'usernameInput' => $user['user_name'],
-                    'id' => $user['id']
-                ];
-                header('Location: overview.php');
+    // Require database in this file
+    require_once "includes/database.php";
+
+    // Check if form submit has been clicked
+    if (isset($_POST['submit'])) {
+        // Check username and password
+        $usernameInput = mysqli_escape_string($db, $_POST['usernameInput']);
+        $password = $_POST['passwordInput'];
+
+        // Check if empty
+        $errors = [];
+        if($usernameInput == '') {
+            $errors['usernameInput'] = 'Voer een gebruikersnaam in';
+        }
+        if($password == '') {
+            $errors['passwordInput'] = 'Voer een wachtwoord in';
+        }
+
+        if(empty($errors)) {
+            // Get record from db based on first name
+            $query = "SELECT * FROM users WHERE user_name='$usernameInput'";
+            $result = mysqli_query($db, $query);
+            if (mysqli_num_rows($result) == 1) {
+                $user = mysqli_fetch_assoc($result);
+                if (password_verify($password, $user['password'])) {
+                    $login = true;
+
+                    // Create session
+                    $_SESSION['loggedInUser'] = [
+                        'usernameInput' => $user['user_name'],
+                        'id' => $user['id']
+                    ];
+                    header('Location: overview.php');
+                } else {
+                    // Error wrong login data
+                    $errors['loginFailed'] = 'De combinatie van email en wachtwoord is bij ons niet bekend';
+                }
             } else {
-                //error onjuiste inloggegevens
+                // Error wrong login data
                 $errors['loginFailed'] = 'De combinatie van email en wachtwoord is bij ons niet bekend';
             }
-        } else {
-            //error onjuiste inloggegevens
-            $errors['loginFailed'] = 'De combinatie van email en wachtwoord is bij ons niet bekend';
         }
     }
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -62,8 +70,7 @@ if (isset($_POST['submit'])) {
         <?php include 'includes/header.php"';?>
             <div class="login-form-outer">
                 <?php if ($login) { ?>
-<!--                    <p>Je bent ingelogd!</p>-->
-<!--                    <p><a href="logout.php">Uitloggen</a>/<a href="secure.php">Naar secure page</a></p>-->
+
                 <?php } else { ?>
                     <form action="" method="post">
                         <div class="login-form-middle">

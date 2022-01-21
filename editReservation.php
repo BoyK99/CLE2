@@ -1,44 +1,62 @@
 <?php
+    // Start session
+    session_start();
+
+    // Can I even visit this page?
+    if (!isset($_SESSION['loggedInUser'])) {
+        header("Location: login.php");
+        exit;
+    }
+
+    // Database variable
     /** @var mysqli $db */
+
+    // Database connection
     require_once("includes/database.php");
 
+    // Check for id
     $id = preg_replace('#[^0-9]#i', '', $_GET['id']);
 
+    // Check if id is right
     if(isset($_GET['id'])){
         $query = mysqli_query($db, "SELECT * FROM reservations WHERE id = '$id'");
         while($row = mysqli_fetch_assoc($query)){
-            $first_name = $row['first_name'];
-            $last_name = $row['last_name'];
-            $phone_number = $row['phone_number'];
-            $email = $row['email'];
-            $date = $row['date'];
-            $time = $row['time'];
-            $location = $row['location'];
-            $persons = $row['persons'];
-            $note = $row['note'];
+            $first_name =       $row['first_name'];
+            $last_name =        $row['last_name'];
+            $phone_number =     $row['phone_number'];
+            $email =            $row['email'];
+            $date =             $row['date'];
+            $time =             $row['time'];
+            $location =         $row['location'];
+            $persons =          $row['persons'];
+            $note =             $row['note'];
         }
     } else {
         echo "het werkt niet";
     }
+
+    // Check if update button is clicked
     if(isset($_POST['update'])){
-        $update_first_name = $row['first_name'];
-        $update_last_name = $row['last_name'];
-        $update_phone_number = $row['phone_number'];
-        $update_email = $row['email'];
-        $update_date = $row['date'];
-        $update_time = $row['time'];
-        $update_location = $row['location'];
-        $update_persons = $row['persons'];
-        $update_note = $row['note'];
+        $update_first_name =    $_POST['first_name'];
+        $update_last_name =     $_POST['last_name'];
+        $update_phone_number =  $_POST['phone_number'];
+        $update_email =         $_POST['email'];
+        $update_date =          $_POST['date'];
+        $update_time =          $_POST['time'];
+        $update_location =      $_POST['location'];
+        $update_persons =       $_POST['persons'];
+        $update_note =          $_POST['note'];
 
-        require_once("includes/update_profile_validation.php");
+        // Form validator starts
+        require_once("includes/update_reservation_validation.php");
 
+        // Prepare SQL
         if(empty($errors)){
             $update_query = "UPDATE reservations SET first_name='$update_first_name', last_name='$update_last_name', 
-                        phone_number='$update_phone_number', email='$update_email', date='$update_date', time='$update_time', locacation='$update_location', 
-                        persons='$update_persons', note='$update_note' WHERE id='$id'";
-
+                        phone_number='$update_phone_number', email='$update_email', date='$update_date', time='$update_time', 
+                        location='$update_location', persons='$update_persons', note='$update_note' WHERE id='$id'";
             $result = mysqli_query($db, $update_query);
+            // If succes redirect to overview.php
             if($result){
                 header('Location: overview.php');
                 exit;
@@ -46,6 +64,7 @@
                 $errors['db'] = "Er is een fout opgetreden...";
             }
         }
+        // Close connection to db
         mysqli_close($db);
     }
 ?>
